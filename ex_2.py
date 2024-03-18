@@ -1,11 +1,20 @@
 def get_cats_info(path):
     try:
         with open(path, 'r', encoding='utf-8') as file:
-            cats_info = [{
-                "id": line.split(',')[0],
-                "name": line.split(',')[1],
-                "age": int(line.split(',')[2])
-            } for line in file.readlines()]
+            cats_info = []
+            
+            for line in file:
+                cat_data = line.strip().split(',')
+                if len(cat_data) == 3:
+                    cats_info.append({
+                        "id": cat_data[0],
+                        "name": cat_data[1],
+                        "age": cat_data[2].strip()  # Retaining age as a string
+                    })
+                else:
+                    print("Невірний формат рядка:", line)
+
+
     except FileNotFoundError:
         print("Файл не знайдено")
         return []
